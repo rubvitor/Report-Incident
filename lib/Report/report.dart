@@ -4,49 +4,37 @@ class Report extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Test(),
+      body: ReportForm(),
     );
   }
+  
 }
 
-class MakeButton extends StatelessWidget{
-  final String _buttonCaption;
-
-  MakeButton(this._buttonCaption);
-
-  @override 
-  Widget build (BuildContext context){
-    return Padding(
-      padding: EdgeInsets.all(10),
-      child: FlatButton(
-          onPressed: () {},
-          child: Text(
-          _buttonCaption
-          ),
-        ),
-    );
-  }
-}
-
-class Test extends StatelessWidget {
+class ReportForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Text("Row DATA 1"),
-            Text("Row DATA 2"),
-            Text("Row DATA 3"),
-          ],
+        const SizedBox(height: 24.0),
+        const SizedBox(height: 24.0),
+        TextFormField(
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            hintText: 'Tell us what is wrong and how it can be fixed',
+            helperText: 'Keep it short, and to the point.',
+            labelText: 'Describe the Problem',
+          ),
+          maxLines: 3,
         ),
-        MakeButton("Flat Button 1"),
-        MakeButton("Flat Button 2"),
-        MakeButton("Flat Button 3"),
+        new DropdownButton<String>(
+          items: <String>['A', 'B', 'C', 'D'].map((String value) {
+            return new DropdownMenuItem<String>(
+              value: value,
+              child: new Text(value),
+            );
+          }).toList(),
+          onChanged: (_) {},
+        )
       ],
     );
   }

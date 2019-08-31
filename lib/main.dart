@@ -2,21 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:report_incident/bottomappbar.dart';
 import 'package:report_incident/Report/report.dart';
+
 import 'map.dart';
 
 void main() {
   runApp(MaterialApp(
     title: 'Navigation Basics',
-    home: _MyAppState(),
+    home: MyAppState(),
   ));
 }
 
-/* class MyApp extends StatelessWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-} */
-
-class _MyAppState extends StatelessWidget{
+class MyAppState extends StatelessWidget{
   final LatLng _center = const LatLng(28.535517, 77.391029);
 
   @override 
