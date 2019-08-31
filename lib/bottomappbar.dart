@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class BottomNavBar extends StatelessWidget {
 
-  final Color color = null;
+  final Color color = Colors.black87;
   final FloatingActionButtonLocation fabLocation = FloatingActionButtonLocation.centerDocked;
   final NotchedShape shape = CircularNotchedRectangle();
 
@@ -10,10 +10,10 @@ class BottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomAppBar(
       color: color,
-      shape: shape,
+      //shape: shape,
       child: Row(children: <Widget>[
         IconButton(
-          icon: const Icon(Icons.menu, semanticLabel: 'Show bottom sheet'),
+          icon: const Icon(Icons.menu, semanticLabel: 'Show bottom sheet', color: Colors.white,),
           onPressed: () {
             showModalBottomSheet<void>(
               context: context,
@@ -23,7 +23,7 @@ class BottomNavBar extends StatelessWidget {
         ),
         const Expanded(child: SizedBox()),
         IconButton(
-          icon: const Icon(Icons.search, semanticLabel: 'show search action',),
+          icon: const Icon(Icons.search, semanticLabel: 'show search action', color: Colors.white),
           onPressed: () {
             Scaffold.of(context).showSnackBar(
               const SnackBar(content: Text('This is a dummy search action.')),
