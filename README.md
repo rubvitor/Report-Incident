@@ -1,6 +1,9 @@
 # report_incident
 
-A new Flutter project.
+Project for reporting any incidents on the streets.
+
+![Current Home Screen](https://raw.githubusercontent.com/piyushp761/Report-Incident/master/Current.png)
+
 
 ## Getting Started
 
