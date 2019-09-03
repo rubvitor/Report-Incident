@@ -41,6 +41,8 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>I need location permission to help you report problems near you.</string>
 	<false/>
 </dict>
 </plist>

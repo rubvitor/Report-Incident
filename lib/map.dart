@@ -3,7 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Map extends StatelessWidget {
   final LatLng _center;
-  GoogleMapController mapController;
+   GoogleMapController mapController;
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -15,10 +15,7 @@ class Map extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return /* SizedBox(
-        width: MediaQuery.of(context).size.width, // or use fixed size like 200
-        height: MediaQuery.of(context).size.height,
-        child:  */GoogleMap(
+    return GoogleMap(
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(
               target: _center,
