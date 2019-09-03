@@ -7,8 +7,6 @@ import 'package:permission_handler/permission_handler.dart';
 
 void main() => runApp(new MyApp());
 
-
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -26,29 +24,15 @@ class Splash extends StatefulWidget {
 }
 
 class SplashState extends State<Splash> {
-  
-  PermissionStatus _permissionStatus;
-  
+
   @override
   void initState() {
     super.initState();
-    PermissionHandler()
-        .checkPermissionStatus(PermissionGroup.locationWhenInUse)
-        .then(_updateStatus);
-    new Timer(new Duration(milliseconds: 200), () {
+    
+    new Timer(new Duration(milliseconds: 0), () {
       checkFirstSeen();
     });
   }
-
-  void _updateStatus(PermissionStatus status) {
-    if (status != _permissionStatus) {
-      setState(() {
-        _permissionStatus = status;
-      });
-    }
-  }
-
-  
 
   Future checkFirstSeen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -60,7 +44,7 @@ class SplashState extends State<Splash> {
     } else {
       prefs.setBool('seen', true);
       Navigator.of(context).pushReplacement(
-          new MaterialPageRoute(builder: (context) => new IntroScreen()));
+          new MaterialPageRoute(builder: (context) => new NewClass()));
     }
   }
 
@@ -68,13 +52,25 @@ class SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     return new Scaffold(
       body: new Center(
-        child: new Text('Loading...'),
+        child: new Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            new Text('Loading...'),
+          ],
+        ),
       ),
     );
   }
+
 }
 
-class IntroScreen extends StatelessWidget {
+class NewClass extends StatefulWidget {
+
+  @override
+  _NewClass createState() => new _NewClass();  
+}
+
+class _NewClass extends State<NewClass> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -86,10 +82,7 @@ class IntroScreen extends StatelessWidget {
             new MaterialButton(
               child: new Text('Allow Permissions'),
               onPressed: () {
-                PermissionHandler().requestPermissions([
-                  PermissionGroup.locationWhenInUse
-                ]).then(onStatusRequested);
-                _move(context);
+                _askPermission();
               },
             )
           ],
@@ -98,16 +91,37 @@ class IntroScreen extends StatelessWidget {
     );
   }
 
-  void onStatusRequested(Map<PermissionGroup, PermissionStatus> statuses) {
-    final status = statuses[PermissionGroup.locationWhenInUse];
-    
+  PermissionStatus _permissionStatus;
+
+  void _askPermission() {
+    PermissionHandler().requestPermissions(
+        [PermissionGroup.locationWhenInUse]).then(_onStatusRequested);
   }
-}
 
+  void _onStatusRequested(Map<PermissionGroup, PermissionStatus> statuses) {
+    final status = statuses[PermissionGroup.locationWhenInUse];
+    if (status != PermissionStatus.granted) {
+      PermissionHandler().openAppSettings();
+    } else {
+      _updateStatus(status);
+      Navigator.of(context).pushReplacement(
+          new MaterialPageRoute(builder: (context) => new MyAppState()));
+    }
+  }
 
+  void _updateStatus(PermissionStatus status) {
+    if (status != _permissionStatus) {
+      setState(() {
+        _permissionStatus = status;
+      });
+    }
+  }
 
-void _move(BuildContext context) {
-  Navigator.of(context).pushReplacement(
-      new MaterialPageRoute(builder: (context) => new MyAppState()));
-      
+  void initState() {
+    super.initState();
+    PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.locationWhenInUse)
+        .then(_updateStatus);
+  }
+
 }
