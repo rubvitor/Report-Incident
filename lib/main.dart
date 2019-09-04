@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'app.dart';
@@ -28,7 +27,6 @@ class SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    
     new Timer(new Duration(milliseconds: 0), () {
       checkFirstSeen();
     });

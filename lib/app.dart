@@ -13,9 +13,7 @@ class MyAppState extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyAppState> {
-  
 
-  final LatLng _center = const LatLng(28.535517, 77.391029);
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -23,7 +21,7 @@ class _MyAppState extends State<MyAppState> {
         body: Stack(
           children: <Widget>[
             Container(
-              child: Map(_center),
+              child: MyMap(),
             ),
             FloatAppBar()
           ],
