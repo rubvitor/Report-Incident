@@ -21,6 +21,8 @@ class _MyMap extends State<MyMap> {
   @override
   Widget build(BuildContext context) {
     return GoogleMap(
+        myLocationEnabled: true,
+        myLocationButtonEnabled: true,
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(
               target: LatLng(userLocation["latitude"],userLocation["longitude"]),
