@@ -27,6 +27,7 @@ class _MyAppState extends State<MyAppState> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
+          heroTag: "btn2",
           onPressed: () {
             Navigator.push(
               context,
