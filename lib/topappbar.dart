@@ -86,7 +86,7 @@ class NavBarElements extends StatelessWidget {
             color: Colors.white70,
           ),
           onPressed: () {
-            //TODO: Implement Drawer
+            Scaffold.of(context).openDrawer();
           },
         ),
         Expanded(

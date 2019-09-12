@@ -116,6 +116,16 @@ class _MyMap extends State<MyMap> {
     return GoogleMap(
       mapType: MapType.normal,
       myLocationEnabled: true,
+      compassEnabled: true,
+      mapToolbarEnabled: true,
+      indoorViewEnabled: true,
+      rotateGesturesEnabled: true,
+      scrollGesturesEnabled: true,
+      tiltGesturesEnabled: true,
+      zoomGesturesEnabled: true,
+      trafficEnabled: true,
+      padding: EdgeInsets.only(top: 60.0),
+      myLocationButtonEnabled: true,
       initialCameraPosition: _initialCamera,
       onMapCreated: (GoogleMapController controller) {
         controller.setMapStyle(
