@@ -95,7 +95,12 @@ class NavBarElements extends StatelessWidget {
             keyboardType: TextInputType.text,
             textInputAction: TextInputAction.go,
             style: TextStyle(color: Colors.white),
-            onTap: () {},
+            onTap: () {
+              showSearch(
+                  context: context,
+                  delegate: CustomSearchDelegate(),
+                );
+            },
             decoration: InputDecoration(
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.symmetric(horizontal: 15),
@@ -113,7 +118,7 @@ class NavBarElements extends StatelessWidget {
                 color: Colors.white70,
               ),
               onPressed: () {
-                //TODO: Implement Mic
+                //TODO: Add Voice Search
               },
             ),
             CircleAvatar(
@@ -126,5 +131,64 @@ class NavBarElements extends StatelessWidget {
         )
       ],
     );
+  }
+}
+
+
+
+class CustomSearchDelegate extends SearchDelegate {
+    @override
+  ThemeData appBarTheme(BuildContext context) {
+    assert(context != null);
+    final ThemeData theme = Theme.of(context);
+    assert(theme != null);
+    return theme;
+  }
+  
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, null);
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    if (query.length < 3) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Center(
+            child: Text(
+              "Search term must be longer than two letters.",
+            ),
+          )
+        ],
+      );
+    }
+    
+    
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    // This method is called everytime the search term changes. 
+    // If you want to add search suggestions as the user enters their search term, this is the place to do that.
+    return Column();
   }
 }
