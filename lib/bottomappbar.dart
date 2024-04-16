@@ -25,7 +25,7 @@ class BottomNavBar extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.search, semanticLabel: 'show search action', color: Colors.white70),
           onPressed: () {
-            Scaffold.of(context).showSnackBar(
+            ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('This is a dummy search action.')),
             );
           },

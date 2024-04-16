@@ -89,19 +89,18 @@ class _NewClass extends State<NewClass> {
     );
   }
 
-  PermissionStatus _permissionStatus;
+  PermissionStatus _permissionStatus = PermissionStatus.permanentlyDenied;
 
   void _askPermission() {
-    PermissionHandler().requestPermissions(
-        [PermissionGroup.locationWhenInUse]).then(_onStatusRequested);
+    Permission.storage.request().then((value) => _onStatusRequested(PermissionStatus.values));
   }
 
-  void _onStatusRequested(Map<PermissionGroup, PermissionStatus> statuses) {
-    final status = statuses[PermissionGroup.locationWhenInUse];
-    if (status != PermissionStatus.granted) {
-      PermissionHandler().openAppSettings();
+  void _onStatusRequested(List<PermissionStatus> statuses) {
+    final status = statuses.firstWhere((element) => element == PermissionStatus.granted);
+    if (status == null || status != PermissionStatus.granted) {
+      openAppSettings();
     } else {
-      _updateStatus(status);
+      _updateStatus(status?? PermissionStatus.denied);
       Navigator.of(context).pushReplacement(
           new MaterialPageRoute(builder: (context) => new MyAppState()));
     }
@@ -115,11 +114,10 @@ class _NewClass extends State<NewClass> {
     }
   }
 
-  void initState() {
+  void initState() async {
     super.initState();
-    PermissionHandler()
-        .checkPermissionStatus(PermissionGroup.locationWhenInUse)
-        .then(_updateStatus);
+    if (await Permission.storage.request().isGranted)
+      _updateStatus(PermissionStatus.granted);
   }
 
 }

@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-const list = [10.0, 15.0, 15.0, null, 0.0];
+const list = [10.0, 15.0, 15.0, 0.0, 0.0];
 
 class FloatAppBar extends StatefulWidget {
   @override
@@ -11,7 +11,7 @@ class FloatAppBar extends StatefulWidget {
 
 class _FloatAppBar extends State<FloatAppBar> {
   double top = 10;
-  double bottom;
+  double bottom = 0;
   double right = 15;
   double left = 15;
 
@@ -40,11 +40,11 @@ class _FloatAppBar extends State<FloatAppBar> {
 }
 
 class PositionedBox extends StatelessWidget {
-  final double top;
-  final double bottom;
-  final double right;
-  final double left;
-  PositionedBox({Key key, this.top, this.bottom, this.left, this.right})
+  double top = 0;
+  double bottom = 0;
+  double right = 0;
+  double left = 0;
+  PositionedBox({Key? key, required this.top, required this.bottom, required this.left, required this.right})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -180,6 +180,8 @@ class CustomSearchDelegate extends SearchDelegate {
           )
         ],
       );
+    } else {
+      return Column();
     }
     
     

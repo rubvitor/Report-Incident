@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 //import 'config.dart';
 
@@ -14,14 +15,14 @@ class MyMap extends StatefulWidget {
 }
 
 class _MyMap extends State<MyMap> {
-  LocationData _startLocation;
-  LocationData _currentLocation;
+  LocationData? _startLocation;
+  LocationData? _currentLocation;
 
-  StreamSubscription<LocationData> _locationSubscription;
+  StreamSubscription<LocationData>? _locationSubscription;
 
   Location _locationService = new Location();
   bool _permission = false;
-  String error;
+  String error = "";
 
   bool currentWidget = true;
 
@@ -31,9 +32,9 @@ class _MyMap extends State<MyMap> {
     zoom: 4,
   );
 
-  CameraPosition _currentCameraPosition;
+  CameraPosition _currentCameraPosition = new CameraPosition(target: new LatLng(0, 0));
 
-  GoogleMap googleMap;
+  GoogleMap? googleMap;
 
   @override
   void initState() {
@@ -45,24 +46,24 @@ class _MyMap extends State<MyMap> {
   // Platform messages are asynchronous, so we initialize in an async method.
   initPlatformState() async {
     await _locationService.changeSettings(
-        accuracy: LocationAccuracy.HIGH, interval: 1000);
+        accuracy: LocationAccuracy.high, interval: 1000);
 
-    LocationData location;
+    LocationData? location;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       bool serviceStatus = await _locationService.serviceEnabled();
       print("Service status: $serviceStatus");
       if (serviceStatus) {
-        _permission = await _locationService.requestPermission();
+        _permission = (await _locationService.requestPermission()).toString().toLowerCase().contains('granted');
         print("Permission: $_permission");
         if (_permission) {
           location = await _locationService.getLocation();
 
           _locationSubscription = _locationService
-              .onLocationChanged()
+              .onLocationChanged
               .listen((LocationData result) async {
             _currentCameraPosition = CameraPosition(
-                target: LatLng(result.latitude, result.longitude), zoom: 16);
+                target: LatLng(result.latitude?? 0, result.longitude?? 0), zoom: 16);
 
             final GoogleMapController controller = await _controller.future;
             controller.animateCamera(
@@ -85,9 +86,9 @@ class _MyMap extends State<MyMap> {
     } on PlatformException catch (e) {
       print(e);
       if (e.code == 'PERMISSION_DENIED') {
-        error = e.message;
+        error = e.message?? "";
       } else if (e.code == 'SERVICE_STATUS_ERROR') {
-        error = e.message;
+        error = e.message?? "";
       }
       location = null;
     }
@@ -98,11 +99,11 @@ class _MyMap extends State<MyMap> {
   }
 
   slowRefresh() async {
-    _locationSubscription.cancel();
+    _locationSubscription?.cancel();
     await _locationService.changeSettings(
-        accuracy: LocationAccuracy.BALANCED, interval: 10000);
+        accuracy: LocationAccuracy.balanced, interval: 10000);
     _locationSubscription =
-        _locationService.onLocationChanged().listen((LocationData result) {
+        _locationService.onLocationChanged.listen((LocationData result) {
       if (mounted) {
         setState(() {
           _currentLocation = result;

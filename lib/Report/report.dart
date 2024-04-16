@@ -47,7 +47,7 @@ class DropDownButtonPage extends StatefulWidget {
 }
 
 class _DropDownButtonState extends State<DropDownButtonPage> {
-  String _value;
+  String _value = "";
 
 
   DropdownButton _itemDown() => DropdownButton<String>(
@@ -87,7 +87,7 @@ class _DropDownButtonState extends State<DropDownButtonPage> {
         ],
         onChanged: (value) {
           setState(() {
-            _value = value;
+            _value = value?? "";
           });
         },
         value: _value,
