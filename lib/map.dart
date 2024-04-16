@@ -115,6 +115,7 @@ class _MyMap extends State<MyMap> {
   @override
   Widget build(BuildContext context) {
     return GoogleMap(
+      key: new Key("AIzaSyAREH-Zckt7wAQZ9jw0WUWoPCOc8jKuyeQ"),
       mapType: MapType.normal,
       myLocationEnabled: true,
       compassEnabled: true,

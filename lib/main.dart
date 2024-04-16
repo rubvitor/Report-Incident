@@ -114,10 +114,12 @@ class _NewClass extends State<NewClass> {
     }
   }
 
-  void initState() async {
+  void initState() {
     super.initState();
-    if (await Permission.storage.request().isGranted)
-      _updateStatus(PermissionStatus.granted);
+    Permission.storage.request().then((x) => {
+      if (x.isGranted) {
+        _updateStatus(PermissionStatus.granted)
+      }
+    });
   }
-
 }
